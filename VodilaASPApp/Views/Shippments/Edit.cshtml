@@ -1,0 +1,64 @@
+﻿@model VodilaASPApp.Models.Shippment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Shippment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Carid" class="control-label"></label>
+                <select asp-for="Carid" class="form-control" asp-items="ViewBag.Carid"></select>
+                <span asp-validation-for="Carid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Routeid" class="control-label"></label>
+                <select asp-for="Routeid" class="form-control" asp-items="ViewBag.Routeid"></select>
+                <span asp-validation-for="Routeid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bonus" class="control-label"></label>
+                <input asp-for="Bonus" class="form-control" />
+                <span asp-validation-for="Bonus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Departuretime" class="control-label"></label>
+                <input asp-for="Departuretime" class="form-control" />
+                <span asp-validation-for="Departuretime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Arrivaltime" class="control-label"></label>
+                <input asp-for="Arrivaltime" class="form-control" />
+                <span asp-validation-for="Arrivaltime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prefereddeparturetime" class="control-label"></label>
+                <input asp-for="Prefereddeparturetime" class="form-control" />
+                <span asp-validation-for="Prefereddeparturetime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preferedarrivaltime" class="control-label"></label>
+                <input asp-for="Preferedarrivaltime" class="form-control" />
+                <span asp-validation-for="Preferedarrivaltime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
