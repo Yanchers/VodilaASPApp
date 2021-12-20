@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VodilaASPApp.Models;
+using VodilaASPApp.Models.ViewModels;
 
 namespace VodilaASPApp.Controllers
 {
@@ -50,6 +51,11 @@ namespace VodilaASPApp.Controllers
         {
             ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name");
             ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace");
+            ViewData["Useraccounts"] = new List<AssignedDriverData>(_context.Useraccounts.Select(ua=>new AssignedDriverData
+            {
+                UseraccountId = ua.Id,
+                FullName = $"{ua.Lastname} {ua.Firstname}",
+            }));
             return View();
         }
 
@@ -58,8 +64,18 @@ namespace VodilaASPApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shippment shippment)
+        public async Task<IActionResult> Create([Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shippment shippment, string[] selectedDrivers)
         {
+            if (selectedDrivers != null)
+            {
+                shippment.Shippmentsdrivers = new List<Shippmentsdriver>();
+                foreach (string driver in selectedDrivers)
+                    shippment.Shippmentsdrivers.Add(new Shippmentsdriver
+                    {
+                        Driverid = int.Parse(driver),
+                        Shippmentid = shippment.Id
+                    });
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(shippment);
@@ -79,13 +95,25 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippment = await _context.Shippments.FindAsync(id);
+            var shippment = await _context.Shippments
+                .Include(s=>s.Car)
+                .Include(s=>s.Route)
+                .Include(s=>s.Shippmentsdrivers)
+                .FirstOrDefaultAsync(s=>s.Id == id);
             if (shippment == null)
             {
                 return NotFound();
             }
             ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shippment.Carid);
             ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shippment.Routeid);
+
+            var drivers = shippment.Shippmentsdrivers.Select(sd=>sd.Driverid);
+            ViewData["Useraccounts"] = new List<AssignedDriverData>(_context.Useraccounts.Select(ua => new AssignedDriverData
+            {
+                UseraccountId = ua.Id,
+                FullName = $"{ua.Lastname} {ua.Firstname}",
+                Assigned = drivers.Contains(ua.Id)
+            }));
             return View(shippment);
         }
 
@@ -94,13 +122,27 @@ namespace VodilaASPApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shippment shippment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shippment shippment, string[] selectedDrivers)
         {
             if (id != shippment.Id)
             {
                 return NotFound();
             }
 
+            if (selectedDrivers != null)
+            {
+                _context.RemoveRange(shippment.Shippmentsdrivers);
+                shippment.Shippmentsdrivers.Clear();
+                foreach (string driver in selectedDrivers)
+                {
+                    var user = await _context.Useraccounts.FirstAsync(ua => ua.Id == int.Parse(driver));
+                    shippment.Shippmentsdrivers.Add(new Shippmentsdriver
+                    {
+                        Driverid = user.Id,
+                        Shippmentid = shippment.Id,
+                    });
+                }
+            }
             if (ModelState.IsValid)
             {
                 try

@@ -46,6 +46,31 @@
                 <span asp-validation-for="Preferedarrivaltime" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <table>
+                        <tr>
+                        @{
+                            int cnt = 0;
+                            List<VodilaASPApp.Models.ViewModels.AssignedDriverData> drivers = ViewBag.Useraccounts;
+
+                                foreach (var driver in drivers)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedDrivers"
+                                               value="@driver.UseraccountId"
+                                               @(Html.Raw(driver.Assigned ? "checked=\"checked\"" : "")) />
+                                        @driver.UseraccountId @driver.FullName
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

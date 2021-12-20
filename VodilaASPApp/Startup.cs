@@ -53,11 +53,11 @@ namespace VodilaASPApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("cars", "{controller=Cars}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("useraccount", "{controller=Useraccounts}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("shippment", "{controller=Shippments}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("route", "{controller=Routes}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("shippmentsdriver", "{controller=Shippmentsdriver}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute("cars", "{controller=Cars}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute("useraccount", "{controller=Useraccounts}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute("shippment", "{controller=Shippments}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute("route", "{controller=Routes}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute("shippmentsdriver", "{controller=Shippmentsdriver}/{action=Index}/{id?}");
             });
         }
     }

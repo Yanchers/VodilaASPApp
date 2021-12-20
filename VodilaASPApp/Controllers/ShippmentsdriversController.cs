@@ -67,7 +67,7 @@ namespace VodilaASPApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shippmentsdriver.Driverid);
-            ViewData["Shippmentid"] = new SelectList(_context.Shippments, "Id", "Id", shippmentsdriver.Shippmentid);
+            ViewData["Shippmentid"] = new SelectList(_context.Shippments, "Id", "Route.Departureplace", shippmentsdriver.Shippmentid);
             return View(shippmentsdriver);
         }
 
