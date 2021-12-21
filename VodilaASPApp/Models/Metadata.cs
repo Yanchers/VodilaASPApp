@@ -45,8 +45,9 @@ namespace VodilaASPApp.Models
         [Display(Name = "Employment Date")]
         public DateTime Employmentdate;
         public int Position;
+        [Required]
         [Display(Name = "Profile Image")]
-        public string Profileimage;
+        public byte[] Profileimage;
     }
     public class UserconfidentialMetadata
     {

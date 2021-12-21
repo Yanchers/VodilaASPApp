@@ -18,7 +18,7 @@ namespace VodilaASPApp.Models
         public string Patronymic { get; set; }
         public DateTime Employmentdate { get; set; }
         public int Position { get; set; }
-        public string Profileimage { get; set; }
+        public byte[] Profileimage { get; set; }
 
         public virtual ICollection<Shippmentsdriver> Shippmentsdrivers { get; set; }
     }

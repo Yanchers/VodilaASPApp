@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,47 +11,22 @@ using VodilaASPApp.Models;
 
 namespace VodilaASPApp.Controllers
 {
-    public class RoutesController : Controller
+    public class UseraccountsController : Controller
     {
         private readonly VodilaContext _context;
 
-        public RoutesController(VodilaContext context)
+        public UseraccountsController(VodilaContext context)
         {
             _context = context;
         }
 
-        // GET: Routes
-        public async Task<IActionResult> Index(string sortOrder, string searchQuery)
+        // GET: Useraccounts
+        public async Task<IActionResult> Index()
         {
-            ViewBag.DepartureplaceSort = string.IsNullOrEmpty(sortOrder) ? "departureplace_desc" : "";
-            ViewBag.ArrivalplaceSort = sortOrder == "arrivalplace" ? "arrivalplace_desc" : "arrivalplace";
-
-            IEnumerable<Route> routes = _context.Routes.AsEnumerable();
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                routes = routes.Where(r => r.Arrivalplace.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) 
-                || r.Departureplace.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
-            }
-            switch (sortOrder)
-            {
-                case "departureplace_desc":
-                    routes = routes.OrderByDescending(r => r.Departureplace);
-                    break;
-                case "arrivalplace":
-                    routes = routes.OrderBy(r => r.Arrivalplace);
-                    break;
-                case "arrivalplace_desc":
-                    routes = routes.OrderByDescending(r => r.Arrivalplace);
-                    break;
-                default:
-                    routes = routes.OrderBy(r => r.Departureplace);
-                    break;
-            }
-
-            return View(routes.ToList());
+            return View(await _context.Useraccounts.ToListAsync());
         }
 
-        // GET: Routes/Details/5
+        // GET: Useraccounts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -57,39 +34,46 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var route = await _context.Routes
+            var useraccount = await _context.Useraccounts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (route == null)
+            if (useraccount == null)
             {
                 return NotFound();
             }
 
-            return View(route);
+            return View(useraccount);
         }
 
-        // GET: Routes/Create
+        // GET: Useraccounts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Routes/Create
+        // POST: Useraccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Departureplace,Arrivalplace,Payment,Distance")] Route route)
+        public async Task<IActionResult> Create([Bind("Id,Firstname,Lastname,Patronymic,Employmentdate,Position,Profileimage")] Useraccount useraccount, IFormFile uploadedFile)
         {
+            if (uploadedFile != null)
+            {
+                using (BinaryReader reader = new BinaryReader(uploadedFile.OpenReadStream()))
+                {
+                    useraccount.Profileimage = reader.ReadBytes((int)uploadedFile.Length);
+                }
+            }
             if (ModelState.IsValid)
             {
-                _context.Add(route);
+                _context.Add(useraccount);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(route);
+            return View(useraccount);
         }
 
-        // GET: Routes/Edit/5
+        // GET: Useraccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,36 +81,42 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var route = await _context.Routes.FindAsync(id);
-            if (route == null)
+            var useraccount = await _context.Useraccounts.FindAsync(id);
+            if (useraccount == null)
             {
                 return NotFound();
             }
-            return View(route);
+            return View(useraccount);
         }
 
-        // POST: Routes/Edit/5
+        // POST: Useraccounts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Departureplace,Arrivalplace,Payment,Distance")] Route route)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Firstname,Lastname,Patronymic,Employmentdate,Position,Profileimage")] Useraccount useraccount, IFormFile uploadedFile)
         {
-            if (id != route.Id)
+            if (id != useraccount.Id)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(route);
+                    if (uploadedFile != null)
+                    {
+                        using (BinaryReader reader = new BinaryReader(uploadedFile.OpenReadStream()))
+                        {
+                            useraccount.Profileimage = reader.ReadBytes((int)uploadedFile.Length);
+                        }
+                    }
+                    _context.Update(useraccount);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RouteExists(route.Id))
+                    if (!UseraccountExists(useraccount.Id))
                     {
                         return NotFound();
                     }
@@ -137,10 +127,10 @@ namespace VodilaASPApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(route);
+            return View(useraccount);
         }
 
-        // GET: Routes/Delete/5
+        // GET: Useraccounts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,30 +138,30 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var route = await _context.Routes
+            var useraccount = await _context.Useraccounts
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (route == null)
+            if (useraccount == null)
             {
                 return NotFound();
             }
 
-            return View(route);
+            return View(useraccount);
         }
 
-        // POST: Routes/Delete/5
+        // POST: Useraccounts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var route = await _context.Routes.FindAsync(id);
-            _context.Routes.Remove(route);
+            var useraccount = await _context.Useraccounts.FindAsync(id);
+            _context.Useraccounts.Remove(useraccount);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RouteExists(int id)
+        private bool UseraccountExists(int id)
         {
-            return _context.Routes.Any(e => e.Id == id);
+            return _context.Useraccounts.Any(e => e.Id == id);
         }
     }
 }

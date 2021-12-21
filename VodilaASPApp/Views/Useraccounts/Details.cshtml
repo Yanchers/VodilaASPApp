@@ -1,0 +1,68 @@
+﻿@using System.IO
+@model VodilaASPApp.Models.Useraccount
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Useraccount</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Firstname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Firstname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lastname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lastname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Patronymic)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Employmentdate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Employmentdate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Profileimage)
+        </dt>
+        <dd class = "col-sm-10">
+            @{ 
+                    byte[] photo = Model.Profileimage;
+                    string imageSrc = null;
+                    if (photo != null)
+                    {
+                       MemoryStream ms = new MemoryStream();
+                       ms.Write(photo, 0, photo.Length);
+                       string imageBase64 = Convert.ToBase64String(ms.ToArray());
+                       imageSrc = string.Format("data:image/jpg;base64,{0}", imageBase64);
+                       string base64String = Convert.ToBase64String(photo, 0, photo.Length);
+                     }
+                }
+
+            <img src="@imageSrc" alt="Image" width="150" height="100" />
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
