@@ -30,9 +30,9 @@ namespace VodilaASPApp.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Vodila;Username=postgres;Password=Ulolaz42");
-                optionsBuilder.UseNpgsql("Host=ec2-52-31-219-113.eu-west-1.compute.amazonaws.com;" +
-                    "Port=5432;Database=d6r626t7n3mnh9;Username=ewxwzmkcsokjqm;" +
-                    "Password=dd3a1f832cd724543fea9a475054bfb32256763ce3b26eea4af81a3798f77f47;" +
+                optionsBuilder.UseNpgsql("Host=ec2-63-32-30-191.eu-west-1.compute.amazonaws.com;" +
+                    "Port=5432;Database=d160tv7t557vsg;Username=mwrfuoxburwlbp;" +
+                    "Password=e75bba1e9fd4656ab84a172a0714c166416678017d9b6ccc1c309b3a2f085bfd;" +
                     "SSL Mode=Require;Trust Server Certificate=true");
             }
         }
