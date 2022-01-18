@@ -1,17 +1,53 @@
 ﻿
 @{
-
+    
 }
 <div class="shippments-main">
     <div class="shippments-header">
-        <p>Тысячи <span>удивительных</span> поездок в одном клике от вас!</p>
+        <p><i>Тысячи</i> <span>удивительных</span> поездок в одном клике от вас!</p>
     </div>
 
     <div class="map-container">
-        Map
+        <p>Карта</p>
     </div>
 
-    <div class="shippments-container">
-        1 2 3 4
+    <div class="shippments-list-container">
+        <div class="shippments-list-header">
+            <p>Вакатные <span>перевозки</span></p>
+            
+        </div>
+
+        <div class="shippments-list-search">
+            <i class="fas fa-search-location"></i>
+            <input type="text" placeholder="Поиск..."/>
+        </div>
+
+        <div class="shippments-list">
+            @foreach (Shippment item in Model)
+            {
+                <div class="shippment-item">
+                    <div class="item-priority-container">
+
+                    </div>
+                    <div class="item-place-container">
+                        <p>@item.Route.Departureplace</p>
+                        <i class="fas fa-caret-down"></i>
+                        <p>@item.Route.Arrivalplace</p>
+                    </div>
+                    <div class="item-info-container">
+                        <p>@item.Route.Distance км</p>
+                        <i class="fas fa-caret-down"></i>
+                        <p>@item.Route.Payment $</p>
+                    </div>
+                    <div class="item-icons">
+                        <i class="fas fa-user"></i>
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <button>
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+            }
+        </div>
     </div>
 </div>
