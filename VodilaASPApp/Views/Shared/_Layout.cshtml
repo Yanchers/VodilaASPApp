@@ -8,13 +8,13 @@
 </head>
 <body>
     <header class="navbar">
-        <img class="logo" src="images/Logo.svg" alt="водила"/>
+        <img class="logo" src="~/images/Logo.svg" alt="водила"/>
         <ul>
             <li>
                 <a asp-controller="Shippments" asp-action="Index">Перевозки</a>
             </li>
             <li>
-                <a>Выплаты</a>
+                <a>Персонал</a>
             </li>
             <li>
                 <a>Контроль</a>
@@ -27,10 +27,8 @@
            Profile
         </div>
     </header>
-    <div>
-        <main role="main">
-            @RenderBody()
-        </main>
+    <div class="body">
+        @RenderBody()
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

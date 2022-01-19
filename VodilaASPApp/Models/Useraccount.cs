@@ -16,10 +16,14 @@ namespace VodilaASPApp.Models
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Patronymic { get; set; }
+        public string Email { get; set; }
         public DateTime Employmentdate { get; set; }
         public int Position { get; set; }
         public byte[] Profileimage { get; set; }
 
         public virtual ICollection<Shippmentsdriver> Shippmentsdrivers { get; set; }
+
+
+        public string FullName => $"{Lastname} {Firstname[0]}. {(Patronymic == null ? "" : Patronymic[0] + ".")}";
     }
 }

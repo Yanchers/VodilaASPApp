@@ -74,20 +74,20 @@ namespace VodilaASPApp.Controllers
         }
 
         // GET: Useraccounts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var useraccount = await _context.Useraccounts.FindAsync(id);
-            if (useraccount == null)
-            {
-                return NotFound();
-            }
-            return View(useraccount);
-        }
+        //    var useraccount = await _context.Useraccounts.FindAsync(id);
+        //    if (useraccount == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(useraccount);
+        //}
 
         // POST: Useraccounts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

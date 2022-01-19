@@ -72,6 +72,8 @@ namespace VodilaASPApp.Models
                 entity.Property(e => e.Distance).HasColumnName("distance");
 
                 entity.Property(e => e.Payment).HasColumnName("payment");
+
+                entity.Property(e => e.RequireSecondDriver).HasColumnName("requireseconddriver");
             });
 
             modelBuilder.Entity<Shippment>(entity =>
@@ -157,6 +159,8 @@ namespace VodilaASPApp.Models
                 entity.Property(e => e.Position).HasColumnName("position");
 
                 entity.Property(e => e.Profileimage).HasColumnName("profileimage");
+
+                entity.Property(e=>e.Email).HasColumnName("email");
             });
 
             modelBuilder.Entity<Userconfidential>(entity =>

@@ -17,6 +17,7 @@ namespace VodilaASPApp.Models
         public string Arrivalplace { get; set; }
         public double Payment { get; set; }
         public double Distance { get; set; }
+        public bool RequireSecondDriver { get; set; }
 
         public virtual ICollection<Shippment> Shippments { get; set; }
     }

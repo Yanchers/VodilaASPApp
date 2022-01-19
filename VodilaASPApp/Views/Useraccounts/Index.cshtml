@@ -1,81 +1,71 @@
 ﻿@using System.IO
-@model IEnumerable<VodilaASPApp.Models.Useraccount>
+@model IEnumerable<Useraccount>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Index</h1>
+<div class="drivers-edit-main">
+    <div class="drivers-edit-list-container">
+        <div class="drivers-edit-list-header">
+            <h1>Все <u>водители</u></h1>
+            <button><i class="fas fa-user-plus"></i></button>
+        </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Firstname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lastname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Patronymic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employmentdate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profileimage)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Patronymic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employmentdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-           
-                @{ 
-                    byte[] photo = item.Profileimage;
-                    string imageSrc = null;
-                    if (photo != null)
-                    {
-                       MemoryStream ms = new MemoryStream();
-                       ms.Write(photo, 0, photo.Length);
-                       string imageBase64 = Convert.ToBase64String(ms.ToArray());
-                       imageSrc = string.Format("data:image/jpg;base64,{0}", imageBase64);
-                       string base64String = Convert.ToBase64String(photo, 0, photo.Length);
-                     }
-                }
+        <div class="drivers-edit-list-columns">
+            <p>ФИО</p>
+            <p>Доход</p>
+            <p>Дата устройства</p>
+        </div>
 
-                <img src="@imageSrc" alt="Image" width="150" height="100" />
-            </td>
+        <div class="drivers-edit-list">
+            @foreach (Useraccount item in Model)
+            {
+                <div class="drivers-edit-list-item">
+                    <p>@item.FullName</p>
+                    <p>???$</p>
+                    <p>@item.Employmentdate.ToShortDateString()</p>
+                </div>   
+            }
+        </div>
+    </div>
+    <div class="drivers-edit-container">
+        <h1>Выбранный водитель</h1>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="edit-useraccount">
+            <div>
+                <div class="input-useraccount">
+                    <p>Фамилия</p>
+                    <input type="text" name="lastname" />
+                </div>
+                <div class="input-useraccount">
+                    <p>Имя</p>
+                    <input type="text" name="firstname" />
+                </div>
+                <div class="input-useraccount">
+                    <p>Отчество</p>
+                    <input type="text" name="patronymic" />
+                </div>
+                <div class="input-useraccount">
+                    <p>Почта</p>
+                    <input type="email" name="email" />
+                </div>
+            </div>
+            <div>
+                <div class="useraccount-image-container">
+                    <img alt="userImg"/>
+                    <button type="button">Сменить</button>
+                </div>
+                <div class="input-useraccount">
+                    <p>Дата устройства</p>
+                    <input type="date" name="employmentdate" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="drivers-buttons-container">
+        <button>Сохранить</button>
+        <button>Удалить</button>
+    </div>
+</div>
