@@ -12,22 +12,21 @@
             <button><i class="fas fa-user-plus"></i></button>
         </div>
 
-        <div class="drivers-edit-list-columns">
-            <p>ФИО</p>
-            <p>Доход</p>
-            <p>Дата устройства</p>
-        </div>
-
-        <div class="drivers-edit-list">
+        <table>
+            <tr class="drivers-edit-list-table-header">
+                <th>ФИО</th>
+                <th>Доход</th>
+                <th>Дата устройства</th>
+            </tr>
             @foreach (Useraccount item in Model)
             {
-                <div class="drivers-edit-list-item">
-                    <p>@item.FullName</p>
-                    <p>???$</p>
-                    <p>@item.Employmentdate.ToShortDateString()</p>
-                </div>   
+                <tr class="drivers-edit-list-item">
+                    <td>@item.FullName</td>
+                    <td>???$</td>
+                    <td>@item.Employmentdate.ToShortDateString()</td>
+                </tr>
             }
-        </div>
+        </table>
     </div>
     <div class="drivers-edit-container">
         <h1>Выбранный водитель</h1>
