@@ -16,8 +16,12 @@
             <li>
                 <a>Персонал</a>
             </li>
-            <li>
-                <a>Контроль</a>
+            <li class="navbar-dropdown-link">
+                <a class="navbar-dropdown-link-btn">Контроль</a>
+                <div class="navbar-dropdown-content">
+                    <a asp-controller="Useraccounts" asp-action="Index">Водители</a>
+                    <a asp-controller="Useraccounts" asp-action="Index">Маршруты</a>
+                </div>
             </li>
             <li>
                 <a>О нас</a>

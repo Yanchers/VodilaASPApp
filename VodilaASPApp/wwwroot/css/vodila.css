@@ -158,11 +158,6 @@
     --gray-color: #81808D;
 }
 
-html {
-    margin: 0;
-    padding: 0;
-}
-
 body {
     background: url(../images/Shippements-index-figures-bg.png) fixed;
     background-size: 100% 100%;
@@ -186,9 +181,11 @@ a:visited{
     color: inherit;
 }
 
-h1, h2, h3, p {
+* {
     margin: 0;
     padding: 0;
+    border: 0;
+    outline: 0;
 }
 
 .navbar {
@@ -216,6 +213,38 @@ h1, h2, h3, p {
 .navbar > ul > li{
     font-weight: bold;
     font-size: 20pt;
+}
+.navbar-dropdown-link {
+    position: relative;
+}
+.navbar-dropdown-link-btn {
+    cursor: pointer;
+}
+.navbar-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    color: var(--primary-color);
+    font-weight: 500;
+    border-radius: 0 0 10px 10px;
+    /*padding: 10px;*/
+}
+.navbar-dropdown-link:hover .navbar-dropdown-content {
+    display: block;
+}
+.navbar-dropdown-content > a {
+    display: block;
+    padding: 5px 10px;
+    transition: background-color ease 0.05s, color ease 0.1s;
+}
+.navbar-dropdown-content > a:nth-last-child(1) {
+    border-radius: 0 0 10px 10px;
+}
+.navbar-dropdown-content > a:hover {
+    background-color: var(--third-color);
+    color: white;
 }
 .profile-btn {
     display: inline;
@@ -399,26 +428,90 @@ h1, h2, h3, p {
 }
 .drivers-edit-list-container > table {
     width: 100%;
-}
-.drivers-edit-list-table-header {
     background-color: var(--third-color);
-    padding: 10px 15px;
-    border-radius: 0 0 20px 20px;
-    border: 0;
+    border-radius: 20px;
+    border-collapse: collapse;
+    margin-top: 10px; 
+}
+.drivers-edit-list-table-header th {
+    padding: 5px 10px;
+    font-size: 18pt;
+    text-align: left;
+    border-bottom: 4px solid var(--secondary-color);
 }
 .drivers-edit-list-item {
+    font-size: 14pt;
+}
+.drivers-edit-list-item td {
+    /*background-color: var(--gray-color);*/
+    padding: 10px 10px;
 }
 
-.drivers-edit-container {
+.drivers-edit {
     /*width: 860px;*/
     padding: 30px;
     border-radius: 27px;
     background-color: var(--secondary-color);
 }
+.drivers-edit-container {
+    display: flex;
+    font-weight: 500;
+    font-size: 15pt;
+}
+.drivers-edit-container > div:nth-child(1) {
+    flex: 1.5;
+}
+.drivers-edit-container > div:nth-child(2) {
+    flex: 1;
+}
+.input-useraccount {
+    margin: 19px 0;
+}
+.input-useraccount > input {
+    box-sizing: border-box;
+    font-size: 15pt;
+    border: 0;
+    border-radius: 10px;
+    margin: 5px 0 0 15px;
+    padding: 7px 8px;
+    font-family: Montserrat;
+
+    transition: box-shadow ease-out 0.2s;
+}
+.input-useraccount > input:focus {
+    box-shadow: 0px -4px var(--yellow-color) inset;
+    outline-offset: -3px;
+}
+.useraccount-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.useraccount-image > button {
+    margin-top: 3px;
+    font-size: 13pt;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
+.useraccount-image > button:hover {
+    text-decoration: underline;
+}
+.useraccount-image-container {
+    display: flex;
+    background-color: white;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.useraccount-image-container > img {
+    width: 230px;
+}
 
 .drivers-buttons-container {
     display: flex;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     align-items: center;
     grid-row: 2;
     background-color: var(--secondary-color);
