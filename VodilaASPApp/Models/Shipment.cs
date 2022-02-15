@@ -20,6 +20,7 @@ namespace VodilaASPApp.Models
         public DateTime? Arrivaltime { get; set; }
         public DateTime Prefereddeparturetime { get; set; }
         public DateTime Preferedarrivaltime { get; set; }
+        public bool IsComplete { get; set; }
 
         public virtual Car Car { get; set; }
         public virtual Route Route { get; set; }

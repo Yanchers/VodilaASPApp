@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,11 @@ using VodilaASPApp.Models.ViewModels;
 
 namespace VodilaASPApp.Controllers
 {
-    public class shipmentsController : Controller
+    public class ShipmentsController : Controller
     {
         private readonly VodilaContext _context;
 
-        public shipmentsController(VodilaContext context)
+        public ShipmentsController(VodilaContext context)
         {
             _context = context;
         }
@@ -24,8 +25,10 @@ namespace VodilaASPApp.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var vodilaContext = _context.shipments.Include(s => s.Car).Include(s => s.Route);
+            var vodilaContext = _context.Shipments.Include(s => s.Car).Include(s => s.Route).Include(s => s.Shipmentsdrivers)
+                .Where(s => !s.IsComplete && (s.Route.RequireSecondDriver ? s.Shipmentsdrivers.Count <= 1 : !s.Shipmentsdrivers.Any()));
             return View(await vodilaContext.ToListAsync());
+            //return View(list);
         }
 
         // GET: shipments/Details/5
@@ -36,7 +39,7 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shipment = await _context.shipments
+            var shipment = await _context.Shipments
                 .Include(s => s.Car)
                 .Include(s => s.Route)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -46,6 +49,27 @@ namespace VodilaASPApp.Controllers
             }
 
             return View(shipment);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Subscribe(int id)
+        {
+            var ship = await _context.Shipments.Include(s => s.Shipmentsdrivers).FirstAsync(s => s.Id == id);
+            if (ship == null)
+                return NotFound();
+
+            var userid = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            var relation = await _context.Shipmentsdrivers.Include(sd => sd.Shipment).FirstOrDefaultAsync(s => s.Driverid == userid && !s.Shipment.IsComplete);
+            if (relation != null) return RedirectToAction("Details", new { id });
+
+            ship.Shipmentsdrivers.Add(new Shipmentsdriver()
+            {
+                Shipmentid = id,
+                Driverid = userid
+            });
+            _context.Update(ship);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: shipments/Create
@@ -116,7 +140,7 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shipment = await _context.shipments
+            var shipment = await _context.Shipments
                 .Include(s=>s.Car)
                 .Include(s=>s.Route)
                 .Include(s=>s.Shipmentsdrivers)
@@ -197,7 +221,7 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shipment = await _context.shipments
+            var shipment = await _context.Shipments
                 .Include(s => s.Car)
                 .Include(s => s.Route)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -214,15 +238,15 @@ namespace VodilaASPApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shipment = await _context.shipments.FindAsync(id);
-            _context.shipments.Remove(shipment);
+            var shipment = await _context.Shipments.FindAsync(id);
+            _context.Shipments.Remove(shipment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool shipmentExists(int id)
         {
-            return _context.shipments.Any(e => e.Id == id);
+            return _context.Shipments.Any(e => e.Id == id);
         }
     }
 }

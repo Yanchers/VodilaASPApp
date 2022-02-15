@@ -1,0 +1,60 @@
+﻿@page
+@model VodilaASPApp.Pages.Account.ProfileModel
+@{
+}
+
+<div class="profile-container">
+    <div class="profile-shipment">
+        <h1>Текущая <span class="vodila-accent">перевозка</span></h1>
+        @if (Model.CurrentShipment == null)
+       {
+           <p>Пусто</p>
+       }
+       else
+        {
+            <form method="post" asp-page-handler="Complete">
+                <button>Завершить</button>
+            </form>
+            <form method="post" asp-page-handler="Cancel">
+                <button>Отказаться</button>
+            </form>
+            <a asp-controller="Shipments" asp-action="Details" asp-route-id="@Model.CurrentShipment.Id">Показать перевозку</a>
+        }
+    </div>
+
+    <div class="profile-history">
+        <h1>История</h1>
+
+        <div>
+            @foreach (var item in Model.Shipments)
+        {
+            <div class="shipment-item">
+                    <div class="item-priority-container">
+
+                    </div>
+                    <div class="item-place-container">
+                        <p>@item.Route.Departureplace</p>
+                        <i class="fas fa-caret-down"></i>
+                        <p>@item.Route.Arrivalplace</p>
+                    </div>
+                    <div class="item-info-container">
+                        <p>@item.Route.Distance км</p>
+                        <i class="fas fa-caret-down"></i>
+                        <p>@item.Route.Payment $</p>
+                    </div>
+                    <div class="item-icons">
+                        <i class="fas fa-user"></i>
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+        }
+        </div>
+    </div>
+
+    <div class="profile-incomes">
+        Инкамыыыыыыыыыыыы
+    </div>
+</div>

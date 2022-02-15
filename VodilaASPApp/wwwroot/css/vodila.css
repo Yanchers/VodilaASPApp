@@ -188,6 +188,10 @@ a:visited{
     outline: 0;
 }
 
+.vodila-accent{
+    color: var(--light-red-color);
+}
+
 .vodila-navbar {
     position: fixed;
     top: 0;
@@ -529,7 +533,17 @@ a:visited{
     display: flex;
     margin-top: 150px;
 }
-
+.flex-container{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.shipment-details-container-priority {
+    width: 35%;
+    height: 23px;
+    border-radius: 27px;
+    background-color: var(--green-color);
+}
 .map-container, .shipment-details-container {
     flex: 1;
     height: 500px;
@@ -551,4 +565,38 @@ a:visited{
     margin: 0 auto;
     padding: 33px;
     border-radius:27px;
+}
+
+.profile-container{
+    display: grid;
+    grid-template-columns: 0.3fr 0.7fr;
+    grid-template-rows: 0.3fr 0.7fr;
+    column-gap: 60px;
+    row-gap: 60px;
+    width: 1400px;
+    margin: 0 auto;
+}
+.profile-shipment {
+    display: flex;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 27px;
+}
+.profile-history {
+    grid-row: 1;
+    grid-column: 2;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 27px;
+}
+.profile-incomes {
+    grid-column: 1/3;
+    grid-row: 2;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 27px;
 }

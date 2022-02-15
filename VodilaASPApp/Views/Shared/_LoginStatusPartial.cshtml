@@ -1,7 +1,7 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
     <form method="post" asp-page="/Account/Logout">
-        <p>Привет @User.Identity.Name</p>
+        <a asp-page="/Account/Profile">Привет @User.Identity.Name</a>
         <button type="submit">Выйти</button>
     </form>
 }

@@ -19,8 +19,8 @@ namespace VodilaASPApp.Models
 
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<Route> Routes { get; set; }
-        public virtual DbSet<Shipment> shipments { get; set; }
-        public virtual DbSet<Shipmentsdriver> shipmentsdrivers { get; set; }
+        public virtual DbSet<Shipment> Shipments { get; set; }
+        public virtual DbSet<Shipmentsdriver> Shipmentsdrivers { get; set; }
         public virtual DbSet<Useraccount> Useraccounts { get; set; }
         public virtual DbSet<Userconfidential> Userconfidentials { get; set; }
 
@@ -95,6 +95,7 @@ namespace VodilaASPApp.Models
                 entity.Property(e => e.Prefereddeparturetime).HasColumnName("prefereddeparturetime");
 
                 entity.Property(e => e.Routeid).HasColumnName("routeid");
+                entity.Property(e => e.IsComplete).HasColumnName("iscomplete");
 
                 entity.HasOne(d => d.Car)
                     .WithMany(p => p.shipments)

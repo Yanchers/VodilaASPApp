@@ -11,8 +11,10 @@
         src="https://www.google.com/maps/embed/v1/directions?origin=@Model.Route.Departureplace&destination=@Model.Route.Arrivalplace&key=AIzaSyCXLMiIqeMz0vzW0cdDm1mTQ0XNF8QZFP4"></iframe>
     </div>
     <div class="shipment-details-container">
-        <h1>Выбранная перевозка</h1>
-        <div class="shipment-details-container-priority"></div>
+        <div class="flex-container">
+            <h1>Выбранная перевозка</h1>
+            <div class="shipment-details-container-priority"></div>
+        </div>
 
         <div class="shipment-details">
             <div>
@@ -43,6 +45,14 @@
                 <h4>Машина:</h4>
                 <div class="shipment-details-item"><p>@Model.Car.Name</p></div>
             </div>
+            <div class="">
+                <h4>Окончена:</h4>
+                <div class="shipment-details-item"><p>@Model.IsComplete</p></div>
+            </div>
         </div>
+
+        <form asp-action="Subscribe" method="post" asp-route-id="@Model.Id">
+            <button class="btn-vodila">Подписаться</button>
+        </form>
     </div>
 </div>

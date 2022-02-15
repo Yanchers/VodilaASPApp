@@ -21,7 +21,7 @@ namespace VodilaASPApp.Controllers
         // GET: shipmentsdrivers
         public async Task<IActionResult> Index()
         {
-            var vodilaContext = _context.shipmentsdrivers.Include(s => s.Driver).Include(s => s.Shipment);
+            var vodilaContext = _context.Shipmentsdrivers.Include(s => s.Driver).Include(s => s.Shipment);
             return View(await vodilaContext.ToListAsync());
         }
 
@@ -33,7 +33,7 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shipmentsdriver = await _context.shipmentsdrivers
+            var shipmentsdriver = await _context.Shipmentsdrivers
                 .Include(s => s.Driver)
                 .Include(s => s.Shipment)
                 .FirstOrDefaultAsync(m => m.Shipmentid == id);
@@ -49,7 +49,7 @@ namespace VodilaASPApp.Controllers
         public IActionResult Create()
         {
             ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname");
-            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Id");
+            ViewData["shipmentid"] = new SelectList(_context.Shipments, "Id", "Id");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace VodilaASPApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shipmentsdriver.Driverid);
-            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Route.Departureplace", shipmentsdriver.Shipmentid);
+            ViewData["shipmentid"] = new SelectList(_context.Shipments, "Id", "Route.Departureplace", shipmentsdriver.Shipmentid);
             return View(shipmentsdriver);
         }
 
@@ -79,13 +79,13 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shipmentsdriver = await _context.shipmentsdrivers.FindAsync(id);
+            var shipmentsdriver = await _context.Shipmentsdrivers.FindAsync(id);
             if (shipmentsdriver == null)
             {
                 return NotFound();
             }
             ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shipmentsdriver.Driverid);
-            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Id", shipmentsdriver.Shipmentid);
+            ViewData["shipmentid"] = new SelectList(_context.Shipments, "Id", "Id", shipmentsdriver.Shipmentid);
             return View(shipmentsdriver);
         }
 
@@ -122,7 +122,7 @@ namespace VodilaASPApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shipmentsdriver.Driverid);
-            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Id", shipmentsdriver.Shipmentid);
+            ViewData["shipmentid"] = new SelectList(_context.Shipments, "Id", "Id", shipmentsdriver.Shipmentid);
             return View(shipmentsdriver);
         }
 
@@ -134,7 +134,7 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shipmentsdriver = await _context.shipmentsdrivers
+            var shipmentsdriver = await _context.Shipmentsdrivers
                 .Include(s => s.Driver)
                 .Include(s => s.Shipment)
                 .FirstOrDefaultAsync(m => m.Shipmentid == id);
@@ -151,15 +151,15 @@ namespace VodilaASPApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shipmentsdriver = await _context.shipmentsdrivers.FindAsync(id);
-            _context.shipmentsdrivers.Remove(shipmentsdriver);
+            var shipmentsdriver = await _context.Shipmentsdrivers.FindAsync(id);
+            _context.Shipmentsdrivers.Remove(shipmentsdriver);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool shipmentsdriverExists(int id)
         {
-            return _context.shipmentsdrivers.Any(e => e.Shipmentid == id);
+            return _context.Shipmentsdrivers.Any(e => e.Shipmentid == id);
         }
     }
 }
