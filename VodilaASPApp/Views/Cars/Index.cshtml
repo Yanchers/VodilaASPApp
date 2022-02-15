@@ -4,32 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="list-container">
+    <div class="list-header">
+        <h1>Все <u>машины</u></h1>
+        <a asp-action="Create"><i class="fas fa-user-plus"></i></a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
+    <table>
+        <tr class="list-table-header">
+            <th>ID</th>
+            <th colspan="3">Название</th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        @foreach (Car item in Model)
+        {
+            <tr class="list-item">
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td class="list-item-btn">
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fas fa-user-edit"></i>
+                    </a>
+                </td>
+                <td class="list-item-btn">
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <i class="fas fa-user-slash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

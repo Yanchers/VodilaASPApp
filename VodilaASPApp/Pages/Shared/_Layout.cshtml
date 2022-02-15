@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/css/vodila.css" />
 </head>
 <body>
-    <header class="vodila-navbar">
+    <header class="navbar">
         <img class="logo" src="~/images/Logo.svg" alt="водила"/>
         <ul>
             <li>
@@ -16,12 +16,11 @@
             <li>
                 <a>Персонал</a>
             </li>
-            <li class="vodila-navbar-dropdown-link">
-                <a class="vodila-navbar-dropdown-link-btn">Контроль</a>
-                <div class="vodila-navbar-dropdown-content">
+            <li class="navbar-dropdown-link">
+                <a class="navbar-dropdown-link-btn">Контроль</a>
+                <div class="navbar-dropdown-content">
                     <a asp-controller="Useraccounts" asp-action="Index">Водители</a>
-                    <a asp-controller="Routes" asp-action="Index">Маршруты</a>
-                    <a asp-controller="Cars" asp-action="Index">Машины</a>
+                    <a asp-controller="Useraccounts" asp-action="Index">Маршруты</a>
                 </div>
             </li>
             <li>
@@ -36,10 +35,9 @@
         @RenderBody()
     </div>
 
-    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/2505d5f849.js" crossorigin="anonymous"></script>
-    @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
-    @*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

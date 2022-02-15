@@ -1,0 +1,48 @@
+﻿@model VodilaASPApp.Models.Shipment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="shipment-details-main">
+    <div class="map-container">
+        <h1>Карта</h1>
+        <iframe height="450" width="450" style="border:0" loading="lazy" allowfullscreen
+        src="https://www.google.com/maps/embed/v1/directions?origin=@Model.Route.Departureplace&destination=@Model.Route.Arrivalplace&key=AIzaSyCXLMiIqeMz0vzW0cdDm1mTQ0XNF8QZFP4"></iframe>
+    </div>
+    <div class="shipment-details-container">
+        <h1>Выбранная перевозка</h1>
+        <div class="shipment-details-container-priority"></div>
+
+        <div class="shipment-details">
+            <div>
+                <h4>Отбытие:</h4>
+                <div class="shipment-details-item"><p>@Model.Route.Departureplace</p></div>
+            </div>
+            <div class="">
+                <h4>Прибытие:</h4>
+                <div class="shipment-details-item"><p>@Model.Route.Arrivalplace</p></div>
+            </div>
+            <div class="">
+                <h4>Время прибытия:</h4>
+                <div class="shipment-details-item"><p>@Model.Preferedarrivaltime</p></div>
+            </div>
+            <div class="">
+                <h4>Время отбытия:</h4>
+                <div class="shipment-details-item"><p>@Model.Prefereddeparturetime</p></div>
+            </div>
+            <div class="">
+                <h4>Расстояние:</h4>
+                <div class="shipment-details-item"><p>@Model.Route.Distance км</p></div>
+            </div>
+            <div class="">
+                <h4>Оплата:</h4>
+                <div class="shipment-details-item"><p>@Model.Route.Payment$</p></div>
+            </div>
+            <div class="">
+                <h4>Машина:</h4>
+                <div class="shipment-details-item"><p>@Model.Car.Name</p></div>
+            </div>
+        </div>
+    </div>
+</div>

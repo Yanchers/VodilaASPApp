@@ -1,19 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace VodilaASPApp.Models
 {
-    [MetadataType(typeof(CarMetadata))]
+    [ModelMetadataType(typeof(CarMetadata))]
     public partial class Car { }
 
-    [MetadataType(typeof(RouteMetadata))]
+    [ModelMetadataType(typeof(RouteMetadata))]
     public partial class Route { }
 
-    [MetadataType(typeof(ShippmentMetadata))]
-    public partial class Shippment { }
+    [ModelMetadataType(typeof(ShipmentMetadata))]
+    public partial class Shipment { }
 
-    [MetadataType(typeof(UseraccountMetadata))]
+    [ModelMetadataType(typeof(UseraccountMetadata))]
     public partial class Useraccount { }
 
-    [MetadataType(typeof(UserconfidentialMetadata))]
-    public partial class Userconfidential{ }
+    [ModelMetadataType(typeof(UserconfidentialMetadata))]
+    public partial class Userconfidential { }
 }

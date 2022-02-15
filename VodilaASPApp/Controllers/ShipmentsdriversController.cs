@@ -9,23 +9,23 @@ using VodilaASPApp.Models;
 
 namespace VodilaASPApp.Controllers
 {
-    public class ShippmentsdriversController : Controller
+    public class shipmentsdriversController : Controller
     {
         private readonly VodilaContext _context;
 
-        public ShippmentsdriversController(VodilaContext context)
+        public shipmentsdriversController(VodilaContext context)
         {
             _context = context;
         }
 
-        // GET: Shippmentsdrivers
+        // GET: shipmentsdrivers
         public async Task<IActionResult> Index()
         {
-            var vodilaContext = _context.Shippmentsdrivers.Include(s => s.Driver).Include(s => s.Shippment);
+            var vodilaContext = _context.shipmentsdrivers.Include(s => s.Driver).Include(s => s.Shipment);
             return View(await vodilaContext.ToListAsync());
         }
 
-        // GET: Shippmentsdrivers/Details/5
+        // GET: shipmentsdrivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,45 +33,45 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippmentsdriver = await _context.Shippmentsdrivers
+            var shipmentsdriver = await _context.shipmentsdrivers
                 .Include(s => s.Driver)
-                .Include(s => s.Shippment)
-                .FirstOrDefaultAsync(m => m.Shippmentid == id);
-            if (shippmentsdriver == null)
+                .Include(s => s.Shipment)
+                .FirstOrDefaultAsync(m => m.Shipmentid == id);
+            if (shipmentsdriver == null)
             {
                 return NotFound();
             }
 
-            return View(shippmentsdriver);
+            return View(shipmentsdriver);
         }
 
-        // GET: Shippmentsdrivers/Create
+        // GET: shipmentsdrivers/Create
         public IActionResult Create()
         {
             ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname");
-            ViewData["Shippmentid"] = new SelectList(_context.Shippments, "Id", "Id");
+            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Id");
             return View();
         }
 
-        // POST: Shippmentsdrivers/Create
+        // POST: shipmentsdrivers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Shippmentid,Driverid")] Shippmentsdriver shippmentsdriver)
+        public async Task<IActionResult> Create([Bind("shipmentid,Driverid")] Shipmentsdriver shipmentsdriver)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shippmentsdriver);
+                _context.Add(shipmentsdriver);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shippmentsdriver.Driverid);
-            ViewData["Shippmentid"] = new SelectList(_context.Shippments, "Id", "Route.Departureplace", shippmentsdriver.Shippmentid);
-            return View(shippmentsdriver);
+            ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shipmentsdriver.Driverid);
+            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Route.Departureplace", shipmentsdriver.Shipmentid);
+            return View(shipmentsdriver);
         }
 
-        // GET: Shippmentsdrivers/Edit/5
+        // GET: shipmentsdrivers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,24 +79,24 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippmentsdriver = await _context.Shippmentsdrivers.FindAsync(id);
-            if (shippmentsdriver == null)
+            var shipmentsdriver = await _context.shipmentsdrivers.FindAsync(id);
+            if (shipmentsdriver == null)
             {
                 return NotFound();
             }
-            ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shippmentsdriver.Driverid);
-            ViewData["Shippmentid"] = new SelectList(_context.Shippments, "Id", "Id", shippmentsdriver.Shippmentid);
-            return View(shippmentsdriver);
+            ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shipmentsdriver.Driverid);
+            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Id", shipmentsdriver.Shipmentid);
+            return View(shipmentsdriver);
         }
 
-        // POST: Shippmentsdrivers/Edit/5
+        // POST: shipmentsdrivers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Shippmentid,Driverid")] Shippmentsdriver shippmentsdriver)
+        public async Task<IActionResult> Edit(int id, [Bind("shipmentid,Driverid")] Shipmentsdriver shipmentsdriver)
         {
-            if (id != shippmentsdriver.Shippmentid)
+            if (id != shipmentsdriver.Shipmentid)
             {
                 return NotFound();
             }
@@ -105,12 +105,12 @@ namespace VodilaASPApp.Controllers
             {
                 try
                 {
-                    _context.Update(shippmentsdriver);
+                    _context.Update(shipmentsdriver);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShippmentsdriverExists(shippmentsdriver.Shippmentid))
+                    if (!shipmentsdriverExists(shipmentsdriver.Shipmentid))
                     {
                         return NotFound();
                     }
@@ -121,12 +121,12 @@ namespace VodilaASPApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shippmentsdriver.Driverid);
-            ViewData["Shippmentid"] = new SelectList(_context.Shippments, "Id", "Id", shippmentsdriver.Shippmentid);
-            return View(shippmentsdriver);
+            ViewData["Driverid"] = new SelectList(_context.Useraccounts, "Id", "Firstname", shipmentsdriver.Driverid);
+            ViewData["shipmentid"] = new SelectList(_context.shipments, "Id", "Id", shipmentsdriver.Shipmentid);
+            return View(shipmentsdriver);
         }
 
-        // GET: Shippmentsdrivers/Delete/5
+        // GET: shipmentsdrivers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,32 +134,32 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippmentsdriver = await _context.Shippmentsdrivers
+            var shipmentsdriver = await _context.shipmentsdrivers
                 .Include(s => s.Driver)
-                .Include(s => s.Shippment)
-                .FirstOrDefaultAsync(m => m.Shippmentid == id);
-            if (shippmentsdriver == null)
+                .Include(s => s.Shipment)
+                .FirstOrDefaultAsync(m => m.Shipmentid == id);
+            if (shipmentsdriver == null)
             {
                 return NotFound();
             }
 
-            return View(shippmentsdriver);
+            return View(shipmentsdriver);
         }
 
-        // POST: Shippmentsdrivers/Delete/5
+        // POST: shipmentsdrivers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shippmentsdriver = await _context.Shippmentsdrivers.FindAsync(id);
-            _context.Shippmentsdrivers.Remove(shippmentsdriver);
+            var shipmentsdriver = await _context.shipmentsdrivers.FindAsync(id);
+            _context.shipmentsdrivers.Remove(shipmentsdriver);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ShippmentsdriverExists(int id)
+        private bool shipmentsdriverExists(int id)
         {
-            return _context.Shippmentsdrivers.Any(e => e.Shippmentid == id);
+            return _context.shipmentsdrivers.Any(e => e.Shipmentid == id);
         }
     }
 }

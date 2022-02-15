@@ -1,0 +1,20 @@
+﻿@page
+@model VodilaASPApp.Pages.LoginModel
+@{
+}
+
+<div>
+    <h1>Авторизация</h1>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="UserConf.Username"></label>
+            <input type="text" asp-for="UserConf.Username" />
+        </div>
+        <div>
+            <label asp-for="UserConf.Password"></label>
+            <input type="password" asp-for="UserConf.Password" />
+        </div>
+        <button type="submit">Войти</button>
+    </form>
+</div>

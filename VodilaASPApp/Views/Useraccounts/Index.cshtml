@@ -5,68 +5,37 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="drivers-edit-main">
-    <div class="drivers-edit-list-container">
-        <div class="drivers-edit-list-header">
-            <h1>Все <u>водители</u></h1>
-            <button><i class="fas fa-user-plus"></i></button>
-        </div>
+<div class="list-container">
+    <div class="list-header">
+        <h1>Все <u>водители</u></h1>
+        <a asp-action="Create"><i class="fas fa-user-plus"></i></a>
+    </div>
 
-        <table>
-            <tr class="drivers-edit-list-table-header">
-                <th>ФИО</th>
-                <th>Доход</th>
-                <th>Дата устройства</th>
+    <table>
+        <tr class="list-table-header">
+            <th>ФИО</th>
+            <th>Доход</th>
+            <th>Почта</th>
+            <th colspan="3">Дата устройства</th>
+        </tr>
+        @foreach (Useraccount item in Model)
+        {
+            <tr class="list-item">
+                <td>@item.FullName</td>
+                <td>???$</td>
+                <td>@item.Email</td>
+                <td>@item.Employmentdate.ToShortDateString()</td>
+                <td class="list-item-btn">
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fas fa-user-edit"></i>
+                    </a>
+                </td>
+                <td class="list-item-btn">
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <i class="fas fa-user-slash"></i>
+                    </a>
+                </td>
             </tr>
-            @foreach (Useraccount item in Model)
-            {
-                <tr class="drivers-edit-list-item">
-                    <td>@item.FullName</td>
-                    <td>???$</td>
-                    <td>@item.Employmentdate.ToShortDateString()</td>
-                </tr>
-            }
-        </table>
-    </div>
-    <div class="drivers-edit">
-        <h1>Выбранный водитель</h1>
-
-        <div class="drivers-edit-container">
-            <div>
-                <div class="input-useraccount">
-                    <p>Фамилия</p>
-                    <input type="text" name="lastname" />
-                </div>
-                <div class="input-useraccount">
-                    <p>Имя</p>
-                    <input type="text" name="firstname" />
-                </div>
-                <div class="input-useraccount">
-                    <p>Отчество</p>
-                    <input type="text" name="patronymic" />
-                </div>
-                <div class="input-useraccount">
-                    <p>Почта</p>
-                    <input type="email" name="email" />
-                </div>
-            </div>
-            <div>
-                <div class="useraccount-image">
-                    <div class="useraccount-image-container">
-                        <img alt="userImg" src="~/images/Logo.svg"/>
-                    </div>
-                    <button type="button">Сменить</button>
-                </div>
-                <div class="input-useraccount">
-                    <p>Дата устройства</p>
-                    <input type="date" name="employmentdate" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="drivers-buttons-container">
-        <button>Сохранить</button>
-        <button>Удалить</button>
-    </div>
+        }
+    </table>
 </div>

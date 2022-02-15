@@ -2,30 +2,25 @@
 @{
     
 }
-<div class="shippments-main">
-    <div class="shippments-header">
+<div class="shipments-main">
+    <div class="shipments-header">
         <p><i>Тысячи</i> <span>удивительных</span> поездок в одном клике от вас!</p>
     </div>
 
-    <div class="map-container">
-        <p>Карта</p>
-    </div>
-
-    <div class="shippments-list-container">
-        <div class="shippments-list-header">
+    <div class="shipments-list-container">
+        <div class="shipments-list-header">
             <p>Вакатные <span>перевозки</span></p>
-            
         </div>
 
-        <div class="shippments-list-search">
+        <div class="shipments-list-search">
             <i class="fas fa-search-location"></i>
             <input type="text" placeholder="Поиск..."/>
         </div>
 
-        <div class="shippments-list">
-            @foreach (Shippment item in Model)
+        <div class="shipments-list">
+            @foreach (Shipment item in Model)
             {
-                <div class="shippment-item">
+                <div class="shipment-item">
                     <div class="item-priority-container">
 
                     </div>
@@ -43,9 +38,9 @@
                         <i class="fas fa-user"></i>
                         <i class="fas fa-truck"></i>
                     </div>
-                    <button>
+                    <a asp-action="Details" asp-route-id="@item.Id">
                         <i class="fas fa-external-link-alt"></i>
-                    </button>
+                    </a>
                 </div>
             }
         </div>

@@ -9,12 +9,12 @@ namespace VodilaASPApp.Models
     {
         public Car()
         {
-            Shippments = new HashSet<Shippment>();
+            shipments = new HashSet<Shipment>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Shippment> Shippments { get; set; }
+        public virtual ICollection<Shipment> shipments { get; set; }
     }
 }

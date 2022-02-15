@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,23 +11,24 @@ using VodilaASPApp.Models.ViewModels;
 
 namespace VodilaASPApp.Controllers
 {
-    public class ShippmentsController : Controller
+    public class shipmentsController : Controller
     {
         private readonly VodilaContext _context;
 
-        public ShippmentsController(VodilaContext context)
+        public shipmentsController(VodilaContext context)
         {
             _context = context;
         }
 
-        // GET: Shippments
+        // GET: shipments
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var vodilaContext = _context.Shippments.Include(s => s.Car).Include(s => s.Route);
+            var vodilaContext = _context.shipments.Include(s => s.Car).Include(s => s.Route);
             return View(await vodilaContext.ToListAsync());
         }
 
-        // GET: Shippments/Details/5
+        // GET: shipments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,23 +36,28 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippment = await _context.Shippments
+            var shipment = await _context.shipments
                 .Include(s => s.Car)
                 .Include(s => s.Route)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (shippment == null)
+            if (shipment == null)
             {
                 return NotFound();
             }
 
-            return View(shippment);
+            return View(shipment);
         }
 
-        // GET: Shippments/Create
-        public IActionResult Create()
+        // GET: shipments/Create
+        public IActionResult Create(int? routeid)
         {
             ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name");
-            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace");
+            var routes = _context.Routes;
+            if (routeid != null)
+                ViewData["Routeid"] = new SelectList(routes, "Id", "Arrivalplace", routeid);
+            else
+                ViewData["Routeid"] = new SelectList(routes, "Id", "Arrivalplace");
+
             ViewData["Useraccounts"] = new List<AssignedDriverData>(_context.Useraccounts.Select(ua=>new AssignedDriverData
             {
                 UseraccountId = ua.Id,
@@ -59,35 +66,49 @@ namespace VodilaASPApp.Controllers
             return View();
         }
 
-        // POST: Shippments/Create
+        // POST: shipments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shippment shippment, string[] selectedDrivers)
+        public async Task<IActionResult> Create([Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shipment shipment)
         {
-            if (selectedDrivers != null)
-            {
-                shippment.Shippmentsdrivers = new List<Shippmentsdriver>();
-                foreach (string driver in selectedDrivers)
-                    shippment.Shippmentsdrivers.Add(new Shippmentsdriver
-                    {
-                        Driverid = int.Parse(driver),
-                        Shippmentid = shippment.Id
-                    });
-            }
             if (ModelState.IsValid)
             {
-                _context.Add(shippment);
+                _context.Add(shipment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shippment.Carid);
-            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shippment.Routeid);
-            return View(shippment);
+            ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shipment.Carid);
+            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shipment.Routeid);
+            return View(shipment);
         }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shipment shipment, string[] selectedDrivers)
+        //{
+        //    if (selectedDrivers != null)
+        //    {
+        //        shipment.Shipmentsdrivers = new List<Shipmentsdriver>();
+        //        foreach (string driver in selectedDrivers)
+        //            shipment.Shipmentsdrivers.Add(new Shipmentsdriver
+        //            {
+        //                Driverid = int.Parse(driver),
+        //                Shipmentid = shipment.Id
+        //            });
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(shipment);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shipment.Carid);
+        //    ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shipment.Routeid);
+        //    return View(shipment);
+        //}
 
-        // GET: Shippments/Edit/5
+        // GET: shipments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,51 +116,51 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippment = await _context.Shippments
+            var shipment = await _context.shipments
                 .Include(s=>s.Car)
                 .Include(s=>s.Route)
-                .Include(s=>s.Shippmentsdrivers)
+                .Include(s=>s.Shipmentsdrivers)
                 .FirstOrDefaultAsync(s=>s.Id == id);
-            if (shippment == null)
+            if (shipment == null)
             {
                 return NotFound();
             }
-            ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shippment.Carid);
-            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shippment.Routeid);
+            ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shipment.Carid);
+            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shipment.Routeid);
 
-            var drivers = shippment.Shippmentsdrivers.Select(sd=>sd.Driverid);
+            var drivers = shipment.Shipmentsdrivers.Select(sd=>sd.Driverid);
             ViewData["Useraccounts"] = new List<AssignedDriverData>(_context.Useraccounts.Select(ua => new AssignedDriverData
             {
                 UseraccountId = ua.Id,
                 FullName = $"{ua.Lastname} {ua.Firstname}",
                 Assigned = drivers.Contains(ua.Id)
             }));
-            return View(shippment);
+            return View(shipment);
         }
 
-        // POST: Shippments/Edit/5
+        // POST: shipments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shippment shippment, string[] selectedDrivers)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Carid,Routeid,Bonus,Departuretime,Arrivaltime,Prefereddeparturetime,Preferedarrivaltime")] Shipment shipment, string[] selectedDrivers)
         {
-            if (id != shippment.Id)
+            if (id != shipment.Id)
             {
                 return NotFound();
             }
 
             if (selectedDrivers != null)
             {
-                _context.RemoveRange(shippment.Shippmentsdrivers);
-                shippment.Shippmentsdrivers.Clear();
+                _context.RemoveRange(shipment.Shipmentsdrivers);
+                shipment.Shipmentsdrivers.Clear();
                 foreach (string driver in selectedDrivers)
                 {
                     var user = await _context.Useraccounts.FirstAsync(ua => ua.Id == int.Parse(driver));
-                    shippment.Shippmentsdrivers.Add(new Shippmentsdriver
+                    shipment.Shipmentsdrivers.Add(new Shipmentsdriver
                     {
                         Driverid = user.Id,
-                        Shippmentid = shippment.Id,
+                        Shipmentid = shipment.Id,
                     });
                 }
             }
@@ -147,12 +168,12 @@ namespace VodilaASPApp.Controllers
             {
                 try
                 {
-                    _context.Update(shippment);
+                    _context.Update(shipment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShippmentExists(shippment.Id))
+                    if (!shipmentExists(shipment.Id))
                     {
                         return NotFound();
                     }
@@ -163,12 +184,12 @@ namespace VodilaASPApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shippment.Carid);
-            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shippment.Routeid);
-            return View(shippment);
+            ViewData["Carid"] = new SelectList(_context.Cars, "Id", "Name", shipment.Carid);
+            ViewData["Routeid"] = new SelectList(_context.Routes, "Id", "Arrivalplace", shipment.Routeid);
+            return View(shipment);
         }
 
-        // GET: Shippments/Delete/5
+        // GET: shipments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -176,32 +197,32 @@ namespace VodilaASPApp.Controllers
                 return NotFound();
             }
 
-            var shippment = await _context.Shippments
+            var shipment = await _context.shipments
                 .Include(s => s.Car)
                 .Include(s => s.Route)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (shippment == null)
+            if (shipment == null)
             {
                 return NotFound();
             }
 
-            return View(shippment);
+            return View(shipment);
         }
 
-        // POST: Shippments/Delete/5
+        // POST: shipments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shippment = await _context.Shippments.FindAsync(id);
-            _context.Shippments.Remove(shippment);
+            var shipment = await _context.shipments.FindAsync(id);
+            _context.shipments.Remove(shipment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ShippmentExists(int id)
+        private bool shipmentExists(int id)
         {
-            return _context.Shippments.Any(e => e.Id == id);
+            return _context.shipments.Any(e => e.Id == id);
         }
     }
 }

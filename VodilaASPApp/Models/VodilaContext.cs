@@ -19,8 +19,8 @@ namespace VodilaASPApp.Models
 
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<Route> Routes { get; set; }
-        public virtual DbSet<Shippment> Shippments { get; set; }
-        public virtual DbSet<Shippmentsdriver> Shippmentsdrivers { get; set; }
+        public virtual DbSet<Shipment> shipments { get; set; }
+        public virtual DbSet<Shipmentsdriver> shipmentsdrivers { get; set; }
         public virtual DbSet<Useraccount> Useraccounts { get; set; }
         public virtual DbSet<Userconfidential> Userconfidentials { get; set; }
 
@@ -76,9 +76,9 @@ namespace VodilaASPApp.Models
                 entity.Property(e => e.RequireSecondDriver).HasColumnName("requireseconddriver");
             });
 
-            modelBuilder.Entity<Shippment>(entity =>
+            modelBuilder.Entity<Shipment>(entity =>
             {
-                entity.ToTable("shippment");
+                entity.ToTable("shipment");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -97,38 +97,38 @@ namespace VodilaASPApp.Models
                 entity.Property(e => e.Routeid).HasColumnName("routeid");
 
                 entity.HasOne(d => d.Car)
-                    .WithMany(p => p.Shippments)
+                    .WithMany(p => p.shipments)
                     .HasForeignKey(d => d.Carid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("shippment_carid_fkey");
+                    .HasConstraintName("shipment_carid_fkey");
 
                 entity.HasOne(d => d.Route)
-                    .WithMany(p => p.Shippments)
+                    .WithMany(p => p.Shipments)
                     .HasForeignKey(d => d.Routeid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("shippment_routeid_fkey");
+                    .HasConstraintName("shipment_routeid_fkey");
             });
 
-            modelBuilder.Entity<Shippmentsdriver>(entity =>
+            modelBuilder.Entity<Shipmentsdriver>(entity =>
             {
-                entity.HasKey(e => new { e.Shippmentid, e.Driverid })
-                    .HasName("shippmentsdrivers_pkey");
+                entity.HasKey(e => new { e.Shipmentid, e.Driverid })
+                    .HasName("shipmentsdrivers_pkey");
 
-                entity.ToTable("shippmentsdrivers");
+                entity.ToTable("shipmentsdrivers");
 
-                entity.Property(e => e.Shippmentid).HasColumnName("shippmentid");
+                entity.Property(e => e.Shipmentid).HasColumnName("shipmentid");
 
                 entity.Property(e => e.Driverid).HasColumnName("driverid");
 
                 entity.HasOne(d => d.Driver)
-                    .WithMany(p => p.Shippmentsdrivers)
+                    .WithMany(p => p.shipmentsdrivers)
                     .HasForeignKey(d => d.Driverid)
-                    .HasConstraintName("shippmentsdrivers_driverid_fkey");
+                    .HasConstraintName("shipmentsdrivers_driverid_fkey");
 
-                entity.HasOne(d => d.Shippment)
-                    .WithMany(p => p.Shippmentsdrivers)
-                    .HasForeignKey(d => d.Shippmentid)
-                    .HasConstraintName("shippmentsdrivers_shippmentid_fkey");
+                entity.HasOne(d => d.Shipment)
+                    .WithMany(p => p.Shipmentsdrivers)
+                    .HasForeignKey(d => d.Shipmentid)
+                    .HasConstraintName("shipmentsdrivers_shipmentid_fkey");
             });
 
             modelBuilder.Entity<Useraccount>(entity =>
@@ -168,6 +168,10 @@ namespace VodilaASPApp.Models
                 entity.HasNoKey();
 
                 entity.ToTable("userconfidential");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasColumnName("username");
 
                 entity.Property(e => e.Password)
                     .IsRequired()

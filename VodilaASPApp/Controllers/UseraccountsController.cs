@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using VodilaASPApp.Models;
 
 namespace VodilaASPApp.Controllers
 {
+    [Authorize(Policy = "Accountant")]
     public class UseraccountsController : Controller
     {
         private readonly VodilaContext _context;
@@ -73,21 +75,21 @@ namespace VodilaASPApp.Controllers
             return View(useraccount);
         }
 
-        // GET: Useraccounts/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Useraccounts/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var useraccount = await _context.Useraccounts.FindAsync(id);
-        //    if (useraccount == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(useraccount);
-        //}
+            var useraccount = await _context.Useraccounts.FindAsync(id);
+            if (useraccount == null)
+            {
+                return NotFound();
+            }
+            return View(useraccount);
+        }
 
         // POST: Useraccounts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

@@ -25,7 +25,19 @@ namespace VodilaASPApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddAuthentication("MyCookieAuth")
+                .AddCookie("MyCookieAuth", opt =>
+                {
+                    opt.Cookie.Name = "MyCookieAuth";
+                    opt.LoginPath = "/Account/Login";
+                    opt.AccessDeniedPath = "/Account/AccessDenied";
+                });
+            services.AddAuthorization(conf
+                => conf.AddPolicy("Accountant", policy => policy.RequireClaim("IsAccountant")));
+
             services.AddDbContext<VodilaContext>();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,10 +58,12 @@ namespace VodilaASPApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

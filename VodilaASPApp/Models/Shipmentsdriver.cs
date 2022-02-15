@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace VodilaASPApp.Models
 {
-    public partial class Shippmentsdriver
+    public partial class Shipmentsdriver
     {
-        public int Shippmentid { get; set; }
+        public int Shipmentid { get; set; }
         public int Driverid { get; set; }
 
         public virtual Useraccount Driver { get; set; }
-        public virtual Shippment Shippment { get; set; }
+        public virtual Shipment Shipment { get; set; }
     }
 }

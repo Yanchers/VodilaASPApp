@@ -9,7 +9,7 @@ namespace VodilaASPApp.Models
     {
         public Useraccount()
         {
-            Shippmentsdrivers = new HashSet<Shippmentsdriver>();
+            shipmentsdrivers = new HashSet<Shipmentsdriver>();
         }
 
         public int Id { get; set; }
@@ -21,7 +21,7 @@ namespace VodilaASPApp.Models
         public int Position { get; set; }
         public byte[] Profileimage { get; set; }
 
-        public virtual ICollection<Shippmentsdriver> Shippmentsdrivers { get; set; }
+        public virtual ICollection<Shipmentsdriver> shipmentsdrivers { get; set; }
 
 
         public string FullName => $"{Lastname} {Firstname[0]}. {(Patronymic == null ? "" : Patronymic[0] + ".")}";

@@ -9,7 +9,7 @@ namespace VodilaASPApp.Models
     {
         public Route()
         {
-            Shippments = new HashSet<Shippment>();
+            Shipments = new HashSet<Shipment>();
         }
 
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace VodilaASPApp.Models
         public double Distance { get; set; }
         public bool RequireSecondDriver { get; set; }
 
-        public virtual ICollection<Shippment> Shippments { get; set; }
+        public virtual ICollection<Shipment> Shipments { get; set; }
     }
 }

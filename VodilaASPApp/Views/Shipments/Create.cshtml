@@ -1,51 +1,47 @@
-﻿@model VodilaASPApp.Models.Shippment
+﻿@model VodilaASPApp.Models.Shipment
 
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Shippment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="create-container">
+    <h1>Создать перевозку</h1>
+    <div>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Carid" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Машина</p>
                 <select asp-for="Carid" class ="form-control" asp-items="ViewBag.Carid"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="Routeid" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Маршрут</p>
                 <select asp-for="Routeid" class ="form-control" asp-items="ViewBag.Routeid"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="Bonus" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Бонус</p>
                 <input asp-for="Bonus" class="form-control" />
                 <span asp-validation-for="Bonus" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Departuretime" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Отправление</p>
                 <input asp-for="Departuretime" class="form-control" />
                 <span asp-validation-for="Departuretime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Arrivaltime" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Прибытие</p>
                 <input asp-for="Arrivaltime" class="form-control" />
                 <span asp-validation-for="Arrivaltime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Prefereddeparturetime" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Предпочтительное отбытие</p>
                 <input asp-for="Prefereddeparturetime" class="form-control" />
                 <span asp-validation-for="Prefereddeparturetime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Preferedarrivaltime" class="control-label"></label>
+            <div class="vodila-input">
+                <p>Предпочтительное прибытие</p>
                 <input asp-for="Preferedarrivaltime" class="form-control" />
                 <span asp-validation-for="Preferedarrivaltime" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="vodila-input">
                 <table>
                         <tr>
                         @{
@@ -69,18 +65,11 @@
                             @:</tr>
                             }
                         </table>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            </div>*@
+            <button class="btn-vodila" type="submit">Создать</button>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

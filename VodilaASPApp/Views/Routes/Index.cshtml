@@ -4,57 +4,44 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="list-container">
+    <div class="list-header">
+        <h1>Все <u>маршруты</u></h1>
+        <a asp-action="Create"><i class="fas fa-user-plus"></i></a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name: @Html.TextBox("searchQuery")  
-        <input type="submit" value="Search" />
-    </p>
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink("Departure Place", "Index", new { sortOrder = ViewBag.DepartureplaceSort })
-            </th>
-            <th>
-                @Html.ActionLink("Arrival Place", "Index", new { sortOrder = ViewBag.ArrivalplaceSort })
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Payment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Distance)
-            </th>
-            <th></th>
+    <table>
+        <tr class="list-table-header">
+            <th>Место отправки</th>
+            <th>Место прибытия</th>
+            <th>Расстояние</th>
+            <th>Оплата</th>
+            <th colspan="4">Второй водитель?</th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departureplace)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arrivalplace)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Payment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Distance)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        @foreach (Route item in Model)
+        {
+            <tr class="list-item">
+                <td>@item.Departureplace</td>
+                <td>@item.Arrivalplace</td>
+                <td>@item.Distance</td>
+                <td>@item.Payment</td>
+                <td>@item.RequireSecondDriver</td>
+                <td class="list-item-btn">
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fas fa-user-edit"></i>
+                    </a>
+                </td>
+                <td class="list-item-btn">
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <i class="fas fa-user-slash"></i>
+                    </a>
+                </td>
+                <td class="list-item-btn">
+                    <a asp-controller="Shipments" asp-action="Create" asp-route-routeid="@item.Id">
+                        <i class="fas fa-user-slash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

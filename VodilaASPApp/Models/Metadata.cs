@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VodilaASPApp.Models
 {
-    public class CarMetadata
+    public partial class CarMetadata
     {
-        [StringLength(20)]
+        [Required]
         public string Name;
     }
-    public class RouteMetadata
+    public partial class RouteMetadata
     {
         [StringLength(60)]
         [Display(Name = "Departure Place")]
@@ -20,19 +20,19 @@ namespace VodilaASPApp.Models
         public double Payment;
         public double Distance;
     }
-    public class ShippmentMetadata
+    public partial class ShipmentMetadata
     {
         public double Bonus;
         [Display(Name = "Departure Time")]
-        public DateTime Departuretime;
+        public DateTime? Departuretime;
         [Display(Name = "Arrival Time")]
-        public DateTime Arrivaltime;
+        public DateTime? Arrivaltime;
         [Display(Name = "Prefered Departure Time")]
         public DateTime Prefereddeparturetime;
         [Display(Name = "Prefered Arrival Time")]
         public DateTime Preferedarrivaltime;
     }
-    public class UseraccountMetadata
+    public partial class UseraccountMetadata
     {
         [StringLength(20)]
         [Display(Name = "First Name")]
@@ -49,8 +49,12 @@ namespace VodilaASPApp.Models
         [Display(Name = "Profile Image")]
         public byte[] Profileimage;
     }
-    public class UserconfidentialMetadata
+    public partial class UserconfidentialMetadata
     {
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }
