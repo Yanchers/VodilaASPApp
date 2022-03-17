@@ -7,7 +7,8 @@
 <div class="drivers-edit">
     <h1>Новый водитель</h1>
 
-    <div class="drivers-edit-container">
+    <form asp-action="Create">
+        <div class="drivers-edit-container">
         <div>
             <div class="vodila-input">
                 <p>Фамилия</p>
@@ -40,7 +41,8 @@
         </div>
     </div>
     <div class="drivers-buttons-container">
-        <button>Сохранить</button>
-        <button>Отмена</button>
+        <button class="btn-vodila" type="submit">Сохранить</button>
+        <button class="btn-vodila" type="reset">Отмена</button>
     </div>
+    </form>
 </div>

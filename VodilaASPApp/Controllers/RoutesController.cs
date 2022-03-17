@@ -82,6 +82,7 @@ namespace VodilaASPApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                route.Payment = new Random().Next(2999, 18000);
                 _context.Add(route);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
